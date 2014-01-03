@@ -23,7 +23,7 @@ public class Neuron {
         return new Sigmoid().value(net);
     }
     
-    private double getNet() {
+    protected double getNet() {
         double n = 0.0;
         for (int i = 0; i < x.length; i++) {
             n += x[i] * w[i];

@@ -55,8 +55,18 @@ public class Main {
 //        for (int i = 0; i < wn2.length; i++) {
 //            wn2up[i] += a * xn1n2[i] * egn2;
 //        }
-        //double[] e = new Backpropagation(new double[]{0.0, 1.0},new double[]{1.0}, 2).getE();
-        //System.out.println(e.length + ", " + e[0]);
+//        double[] e = new Backpropagation(new double[]{1.0, 1.0},new double[]{1.0}, 2).getY();
+//        System.out.println(e[0]);
+
+        Neuron n = new Neuron(new double[]{1.0, 1.0}, InitWT.getW(2), InitWT.getTh());
+  
+        Neuron n2 = new Neuron(new double[]{1.0, 1.0}, InitWT.getW(2), InitWT.getTh());
+        
+        Neuron n3 = new Neuron(new double[]{n.getY(), n2.getY()}, InitWT.getW(2), InitWT.getTh());
+        System.out.println(n3.getY());
+        
+        Neuron n4 = new Neuron(n3.getX(), UpdateW.getW(n3, 0), n3.getTh());
+        System.out.println(n4.getY());
     }
 
 

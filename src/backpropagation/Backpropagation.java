@@ -3,9 +3,10 @@ package backpropagation;
 import java.util.Random;
 
 public class Backpropagation {
-    
+
     private final double[] x;
     private final double[] yd;
+    private double error;
     private final int hsize;
     private Neuron[] hidden;
     private Neuron[] output;
@@ -18,34 +19,64 @@ public class Backpropagation {
         this.hsize = hsize;
         r = new Random();
     }
-    
-    private double[] updateW(double[] neuronX, double[] neuronW, double neuronOutput) {
-        double[] newW = neuronW.clone();
-        double eg = getErrorGradient(neuronOutput, neuronW);
-        for (int i = 0; i < neuronW.length; i++) {
-            newW[i] += a * neuronX[i] * eg;
+
+    private double[] updateW(Neuron n) {
+        double[] newW = new double[n.getW().length];
+        double eg = getErrorGradient(n);
+        for (int i = 0; i < n.getW().length; i++) {
+            newW[i] = n.getW()[i] + a * n.getX()[i] * eg;
         }
         return newW;
     }
     
-    private double getErrorGradient(double neuronOutput, double[] neuronW) {
-        double eg = 0.0;
-        for (int i = 0; i < neuronW.length; i++) {
-            eg += neuronOutput * (1 - neuronOutput) * neuronW[i];
+    private double getE(double[] y) {
+        double e = 0.0;
+        for (int i = 0; i < yd.length; i++) {
+            e += yd[i] - y[i];
+        } 
+        return e;
+    }
+
+
+    private Neuron[] updateLayer(Neuron[] layer) {
+        Neuron[] newLayer = new Neuron[layer.length];
+        for (int i = 0; i < layer.length; i++) {
+            Neuron n = layer[i];
+            newLayer[i] = new Neuron(n.getX(), updateW(n), n.getTh());
         }
-        return eg;
+        return newLayer;
+    }
+
+    private double getErrorGradient(Neuron n) {
+        return (n.getY() / n.getNet()) * error;
     }
     
-    public double[] getE() {
-        return calcE(getInitialY());
-    }   
-    
-    private double[] calcE(double[] ytemp) {
-        double[] error = new double[ytemp.length];
+    public double[] getY() {
+        return learn(getInitialY());
+    }
+
+    private double[] learn(double[] y) {
+        double res = 0.0;
+        error = getE(y);
         for (int i = 0; i < yd.length; i++) {
-            error[i] = yd[i] - ytemp[i];
+            res += (y[i] * 100) /yd[i];
+            System.out.println(res);
         }
-        return error;
+        if ((res / yd.length) > 90) {
+            return y;
+        } else {
+            Neuron[] newOutput = updateLayer(output);
+            Neuron[] newHidden = updateLayer(hidden);
+            double[] yNewHidden = new double[newHidden.length];
+            for (int i = 0; i < newHidden.length; i++) {
+                yNewHidden[i] = newHidden[i].getY();
+            }
+            double[] finalY = new double[newOutput.length];
+            for (int i = 0; i < newOutput.length; i++) {
+                finalY[i] = new Neuron(yNewHidden, newOutput[i].getW(), newOutput[i].getTh()).getY();
+            }
+            return learn(finalY);
+        }
     }
 
     private double[] getInitialY() {
@@ -67,7 +98,7 @@ public class Backpropagation {
         }
         return initialY;
     }
-    
+
     private double[] initW(double[] xtemp) {
         double[] wt = new double[xtemp.length];
         for (int i = 0; i < xtemp.length; i++) {
@@ -75,6 +106,7 @@ public class Backpropagation {
         }
         return wt;
     }
+
     private double initTh() {
         return r.nextGaussian();
     }
