@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         double[] x = {1.0, 1.0, 1.0};
-        double[] yd = {1};
+        double[] yd = {1, 0};
         int hsize = 2;
         Backpropagation b = new Backpropagation(x, yd, hsize);
         b.learn();
