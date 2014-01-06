@@ -9,7 +9,8 @@ public class Backpropagation {
     private final int hsize;
     private final Neuron[] hidden;
     private final Neuron[] output;
-    private static double[] y;
+    private final double[] y;
+    private NN nn;
 
     public Backpropagation(double[] x, double[] yd, int hsize) {
         this.x = x;
@@ -19,6 +20,11 @@ public class Backpropagation {
         output = new Neuron[yd.length];
         y = new double[yd.length];
         initY();
+        learn();
+    }
+    
+    public NN getNN() {
+        return nn;
     }
 
     private void initY() {
@@ -32,7 +38,7 @@ public class Backpropagation {
         }
     }
 
-    public void learn() {
+    private void learn() {
         for (int i = 0; i < yd.length; i++) {
             output[i].setW(UpdateW.getOutputW(output[i], yd[i]));
         }
@@ -50,7 +56,7 @@ public class Backpropagation {
         for (int i = 0; i < yd.length; i++) {
             y[i] = (oy[i] > 0.8) ? 1 : 0; 
         }
-
+        nn = new NN(hidden, output);
         System.out.println(oy[0] + ", " + oy[1]);
         while (!Arrays.equals(yd, y)) {
             learn();

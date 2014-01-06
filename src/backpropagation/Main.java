@@ -7,8 +7,9 @@ public class Main {
         double[] yd = {1, 0};
         int hsize = 2;
         Backpropagation b = new Backpropagation(x, yd, hsize);
-        b.learn();
-        
+        NN nn = b.getNN();
+        double[] y = nn.getY(true, new double[]{1.0, 1.0, 1.0});
+        System.out.println(y[0] + ", " + y[1]);
     }
 
     private void test() {
