@@ -19,7 +19,7 @@ class Trainer {
         this.a = a;
     }
     
-    public double getY() {
+    double getY() {
         y = activate(getNet());
         e = yd - y;
         if (e == 0) {

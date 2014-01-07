@@ -4,19 +4,19 @@ package backpropagation;
 import java.io.Serializable;
 import org.apache.commons.math3.analysis.function.Sigmoid;
 
-public class Neuron implements Serializable {
+class Neuron implements Serializable {
     
     private double[] x;
     private double[] w;
     private double th;
 
-    public Neuron(double[] x, double[] w, double th) {
+    Neuron(double[] x, double[] w, double th) {
         this.x = x;
         this.w = w;
         this.th = th;
     }
     
-    public double getY() {
+    double getY() {
         return activate(getNet());
     }
     
@@ -24,7 +24,7 @@ public class Neuron implements Serializable {
         return new Sigmoid().value(net);
     }
     
-    protected double getNet() {
+    double getNet() {
         double n = 0.0;
         for (int i = 0; i < x.length; i++) {
             n += x[i] * w[i];
@@ -32,27 +32,27 @@ public class Neuron implements Serializable {
         return n - th;
     }
 
-    public double[] getX() {
+    double[] getX() {
         return x;
     }
 
-    public void setX(double[] x) {
+    void setX(double[] x) {
         this.x = x;
     }
 
-    public double[] getW() {
+    double[] getW() {
         return w;
     }
 
-    public void setW(double[] w) {
+    void setW(double[] w) {
         this.w = w;
     }
 
-    public double getTh() {
+    double getTh() {
         return th;
     }
 
-    public void setTh(double th) {
+    void setTh(double th) {
         this.th = th;
     }
     
