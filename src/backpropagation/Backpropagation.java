@@ -1,6 +1,12 @@
 package backpropagation;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Backpropagation {
 
@@ -22,9 +28,20 @@ public class Backpropagation {
         initY();
         learn();
     }
-    
+
     public NN getNN() {
         return nn;
+    }
+
+    public void saveNN(String name) {
+        try {
+            FileOutputStream fos = new FileOutputStream(name);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(nn);
+            oos.close();
+            fos.close();
+        } catch (IOException ex) {
+        }
     }
 
     private void initY() {
@@ -54,7 +71,7 @@ public class Backpropagation {
         }
 
         for (int i = 0; i < yd.length; i++) {
-            y[i] = (oy[i] > 0.8) ? 1 : 0; 
+            y[i] = (oy[i] > 0.8) ? 1 : 0;
         }
         nn = new NN(hidden, output);
         System.out.println(oy[0] + ", " + oy[1]);

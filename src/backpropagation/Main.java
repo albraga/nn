@@ -6,11 +6,15 @@ public class Main {
         double[] x = {1.0, 1.0, 1.0};
         double[] yd = {1, 0};
         int hsize = 2;
-        Backpropagation b = new Backpropagation(x, yd, hsize);
-        NN nn = b.getNN();
+        //Backpropagation b = new Backpropagation(x, yd, hsize);
+        //NN nn = b.getNN();
+        //b.saveNN("test.ser");
+        NN nn = DeserializeNN.get("test.ser");
         double[] y = nn.getY(true, new double[]{1.0, 1.0, 1.0});
         System.out.println(y[0] + ", " + y[1]);
     }
+    
+    
 
     private void test() {
         double yd = 0;

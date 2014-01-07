@@ -1,9 +1,10 @@
 
 package backpropagation;
 
+import java.io.Serializable;
 import org.apache.commons.math3.analysis.function.Sigmoid;
 
-public class Neuron {
+public class Neuron implements Serializable {
     
     private double[] x;
     private double[] w;
