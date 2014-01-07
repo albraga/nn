@@ -2,11 +2,11 @@
 package backpropagation;
 
 
-public class UpdateW {
+class UpdateW {
     
     private static double sumEgDotW;
     
-    protected static double[] getOutputW(Neuron n, double yd) {
+    static double[] getOutputW(Neuron n, double yd) {
         double eg = n.getY() * (1 - n.getY()) * (yd - n.getY());
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {
@@ -16,7 +16,7 @@ public class UpdateW {
         return w;
     }
     
-    protected static double[] getHiddenW(Neuron n) {
+    static double[] getHiddenW(Neuron n) {
         double eg = n.getY() * (1 - n.getY()) * sumEgDotW;
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {

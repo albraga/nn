@@ -7,7 +7,7 @@ public class NN implements Serializable {
     private final Neuron[] hidden;
     private final Neuron[] output;
 
-    protected NN(Neuron[] hidden, Neuron[] output) {
+    NN(Neuron[] hidden, Neuron[] output) {
         this.hidden = hidden;
         this.output = output;
     }

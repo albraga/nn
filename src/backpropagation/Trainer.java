@@ -1,7 +1,7 @@
 
 package backpropagation;
 
-public class Trainer {
+class Trainer {
     
     private final double[] x;
     private final int yd;
@@ -11,7 +11,7 @@ public class Trainer {
     private final double th;
     private final double a;
 
-    public Trainer(double[] x, int yd, double th, double a, double[] w) {
+    Trainer(double[] x, int yd, double th, double a, double[] w) {
         this.x = x;
         this.yd = yd;
         this.w = w;
