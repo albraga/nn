@@ -1,5 +1,6 @@
 package backpropagation;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,7 +12,6 @@ public class Backpropagation {
     private final int hsize;
     private final Neuron[] hidden;
     private final Neuron[] output;
-    private final double[] y;
     private NN nn;
     private static double sse;
 
@@ -21,7 +21,6 @@ public class Backpropagation {
         this.hsize = hsize;
         hidden = new Neuron[hsize];
         output = new Neuron[yd.length];
-        y = new double[yd.length];
         initY();
         learn();
     }
@@ -66,11 +65,8 @@ public class Backpropagation {
             output[i] = new Neuron(hy, UpdateW.getOutputW(output[i], yd[i]), output[i].getTh());
             oy[i] = output[i].getY();
         }
-        for (int i = 0; i < yd.length; i++) {
-            y[i] = (oy[i] > 0.8) ? 1 : 0;
-        }
         nn = new NN(hidden, output);
-        sse = sumSquaredError(oy);
+        sse = sumSquaredErrors(oy);
         try {
             while (sse > 0.001) {
                 learn();
@@ -81,11 +77,11 @@ public class Backpropagation {
         }
     }
 
-    private double sumSquaredError(double[] yy) {
-        double sse = 0;
+    private double sumSquaredErrors(double[] yy) {
+        double s = 0;
         for (int i = 0; i < yy.length; i++) {
-            sse += Math.pow((yd[i] - yy[i]), 2);
+            s += Math.pow((yd[i] - yy[i]), 2);
         }
-        return sse;
+        return s;
     }
 }
