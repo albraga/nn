@@ -2,7 +2,6 @@
 package backpropagation;
 
 import java.io.Serializable;
-import org.apache.commons.math3.analysis.function.Sigmoid;
 
 class Neuron implements Serializable {
     
@@ -21,7 +20,7 @@ class Neuron implements Serializable {
     }
     
     private double activate(double net) {
-        return new Sigmoid().value(net);
+        return (1 / (1 + Math.exp(-net)));
     }
     
     double getNet() {
