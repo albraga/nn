@@ -71,7 +71,12 @@ public class Backpropagation {
             y[i] = (oy[i] > 0.8) ? 1 : 0;
         }
         nn = new NN(hidden, output);
+        try {
         while (!Arrays.equals(yd, y)) {
+            learn();
+        }
+        } catch(StackOverflowError e) {
+            initY();
             learn();
         }
     }
