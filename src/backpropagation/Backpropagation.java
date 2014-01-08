@@ -3,7 +3,6 @@ package backpropagation;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Arrays;
 
 public class Backpropagation {
 
@@ -14,6 +13,7 @@ public class Backpropagation {
     private final Neuron[] output;
     private final double[] y;
     private NN nn;
+    private static double sse;
 
     public Backpropagation(double[] x, double[] yd, int hsize) {
         this.x = x;
@@ -66,19 +66,26 @@ public class Backpropagation {
             output[i] = new Neuron(hy, UpdateW.getOutputW(output[i], yd[i]), output[i].getTh());
             oy[i] = output[i].getY();
         }
-
         for (int i = 0; i < yd.length; i++) {
             y[i] = (oy[i] > 0.8) ? 1 : 0;
         }
         nn = new NN(hidden, output);
+        sse = sumSquaredError(oy);
         try {
-        while (!Arrays.equals(yd, y)) {
-            learn();
-        }
-        } catch(StackOverflowError e) {
+            while (sse > 0.001) {
+                learn();
+            }
+        } catch (StackOverflowError e) {
             initY();
             learn();
         }
     }
 
+    private double sumSquaredError(double[] yy) {
+        double sse = 0;
+        for (int i = 0; i < yy.length; i++) {
+            sse += Math.pow((yd[i] - yy[i]), 2);
+        }
+        return sse;
+    }
 }
