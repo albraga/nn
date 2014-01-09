@@ -13,6 +13,7 @@ public class Backpropagation {
     private final Neuron[] output;
     private NN nn;
     private static double sse;
+    private static int ct = 0;
 
     public Backpropagation(double[] x, double[] yd, int hsize) {
         this.x = x;
@@ -42,11 +43,11 @@ public class Backpropagation {
     private void initY() {
         double[] hy = new double[hsize];
         for (int i = 0; i < hsize; i++) {
-            hidden[i] = new Neuron(x, InitWT.getW(x.length), InitWT.getTh());
+            hidden[i] = new Neuron(x, InitWTh.getW(x.length), InitWTh.getTh());
             hy[i] = hidden[i].getY();
         }
         for (int i = 0; i < yd.length; i++) {
-            output[i] = new Neuron(hy, InitWT.getW(hy.length), InitWT.getTh());
+            output[i] = new Neuron(hy, InitWTh.getW(hy.length), InitWTh.getTh());
         }
     }
 
@@ -68,6 +69,7 @@ public class Backpropagation {
         }
         nn = new NN(hidden, output);
         sse = sumSquaredErrors(oy);
+        System.out.println(ct++);
         try {
             while (sse > 0.001) {
                 learn();

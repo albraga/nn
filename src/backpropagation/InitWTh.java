@@ -2,7 +2,7 @@ package backpropagation;
 
 import java.util.Random;
 
-class InitWT {
+class InitWTh {
     
     private static final Random r = new Random();
 
@@ -15,6 +15,6 @@ class InitWT {
     }
 
     static double getTh() {
-        return r.nextGaussian();
+        return r.nextGaussian() * 4;
     }
 }

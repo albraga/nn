@@ -13,10 +13,10 @@ class UpdateWTh {
         double eg = n.getY() * (1 - n.getY()) * (yd - n.getY());
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {
-            w[i] += (alpha * (n.getX()[i] * eg));
+            w[i] += (alpha * n.getX()[i] * eg);
             sumEgDotW += n.getW()[i] * eg;
         }
-        outputTh = n.getTh() + (alpha * (-1) * eg);
+        outputTh = n.getTh() + (alpha * -eg);
         return w;
     }
     
@@ -24,9 +24,9 @@ class UpdateWTh {
         double eg = n.getY() * (1 - n.getY()) * sumEgDotW;
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {
-            w[i] += (alpha * (n.getX()[i] * eg));
+            w[i] += (alpha * n.getX()[i] * eg);
         }
-        hiddenTh = n.getTh() + (alpha * (-1) * eg);
+        hiddenTh = n.getTh() + (alpha * -eg);
         return w;
     }
     
