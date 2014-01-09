@@ -1,6 +1,5 @@
 package backpropagation;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -53,16 +52,18 @@ public class Backpropagation {
 
     private void learn() {
         for (int i = 0; i < yd.length; i++) {
-            output[i].setW(UpdateW.getOutputW(output[i], yd[i]));
+            output[i].setW(UpdateWTh.getOutputW(output[i], yd[i]));
+            output[i].setTh(UpdateWTh.outputTh);
         }
         double[] hy = new double[hsize];
         for (int i = 0; i < hidden.length; i++) {
-            hidden[i].setW(UpdateW.getHiddenW(hidden[i]));
+            hidden[i].setW(UpdateWTh.getHiddenW(hidden[i]));
+            hidden[i].setTh(UpdateWTh.hiddenTh);
             hy[i] = hidden[i].getY();
         }
         double[] oy = new double[yd.length];
         for (int i = 0; i < yd.length; i++) {
-            output[i] = new Neuron(hy, UpdateW.getOutputW(output[i], yd[i]), output[i].getTh());
+            output[i] = new Neuron(hy, UpdateWTh.getOutputW(output[i], yd[i]), UpdateWTh.outputTh);
             oy[i] = output[i].getY();
         }
         nn = new NN(hidden, output);

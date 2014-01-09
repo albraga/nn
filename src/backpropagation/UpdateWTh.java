@@ -2,17 +2,21 @@
 package backpropagation;
 
 
-class UpdateW {
+class UpdateWTh {
     
+    private static final double alpha = 0.1;
     private static double sumEgDotW;
+    static double outputTh;
+    static double hiddenTh;
     
     static double[] getOutputW(Neuron n, double yd) {
         double eg = n.getY() * (1 - n.getY()) * (yd - n.getY());
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {
-            w[i] += (0.1 * (n.getX()[i] * eg));
+            w[i] += (alpha * (n.getX()[i] * eg));
             sumEgDotW += n.getW()[i] * eg;
         }
+        outputTh = n.getTh() + (alpha * (-1) * eg);
         return w;
     }
     
@@ -20,8 +24,9 @@ class UpdateW {
         double eg = n.getY() * (1 - n.getY()) * sumEgDotW;
         double[] w = n.getW();
         for (int i = 0; i < n.getW().length; i++) {
-            w[i] += (0.1 * (n.getX()[i] * eg));
+            w[i] += (alpha * (n.getX()[i] * eg));
         }
+        hiddenTh = n.getTh() + (alpha * (-1) * eg);
         return w;
     }
     
