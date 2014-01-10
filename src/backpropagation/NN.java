@@ -13,15 +13,17 @@ public class NN implements Serializable {
     }
 
     public double[] getY(boolean real, double[] x) {
+        Neuron[] hiddenN = new Neuron[hidden.length];
         double[] hy = new double[hidden.length];
         for (int i = 0; i < hidden.length; i++) {
-            hidden[i] = new Neuron(x, hidden[i].getW(), hidden[i].getTh());
-            hy[i] = hidden[i].getY();
+            hiddenN[i] = new Neuron(x, hidden[i].getW(), hidden[i].getTh());
+            hy[i] = hiddenN[i].getY();
         }
+        Neuron[] outputN = new Neuron[output.length];
         double[] oy = new double[output.length];
         for (int i = 0; i < output.length; i++) {
-            output[i] = new Neuron(hy, output[i].getW(), output[i].getTh());
-            oy[i] = output[i].getY();
+            outputN[i] = new Neuron(hy, output[i].getW(), output[i].getTh());
+            oy[i] = outputN[i].getY();
         }
         return real ? oy : convert(oy);
     }

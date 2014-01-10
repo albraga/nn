@@ -9,12 +9,12 @@ class InitWTh {
     static double[] getW(int size) {
         double[] wt = new double[size];
         for (int i = 0; i < size; i++) {
-            wt[i] = i % 2 == 0 ? r.nextGaussian() : r.nextDouble();
+            wt[i] = i % 2 == 0 ? -r.nextDouble()/4 : r.nextDouble()/4;
         }
         return wt;
     }
 
     static double getTh() {
-        return r.nextGaussian() * 4;
+        return r.nextDouble()/4;
     }
 }
