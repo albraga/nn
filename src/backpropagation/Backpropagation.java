@@ -15,10 +15,10 @@ public class Backpropagation {
     private static double sse;
     private static int ct = 0;
 
-    public Backpropagation(double[] x, double[] yd) {
+    public Backpropagation(double[] x, double[] yd, int hsize) {
         this.x = x;
         this.yd = yd;
-        hsize = (yd.length * 40);
+        this.hsize = hsize;
         hidden = new Neuron[hsize];
         output = new Neuron[yd.length];
         initY();
@@ -49,13 +49,14 @@ public class Backpropagation {
         for (int i = 0; i < yd.length; i++) {
             output[i] = new Neuron(hy, InitWTh.getW(hy.length), InitWTh.getTh());
         }
-    }
-
-    private void learn() {
         for (int i = 0; i < yd.length; i++) {
             output[i].setW(UpdateWTh.getOutputW(output[i], yd[i]));
             output[i].setTh(UpdateWTh.outputTh);
         }
+    }
+
+    private void learn() {
+        
         double[] hy = new double[hsize];
         for (int i = 0; i < hidden.length; i++) {
             hidden[i].setW(UpdateWTh.getHiddenW(hidden[i]));
