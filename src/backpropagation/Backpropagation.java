@@ -15,10 +15,10 @@ public class Backpropagation {
     private static double sse;
     private static int ct = 0;
 
-    public Backpropagation(double[] x, double[] yd, int hsize) {
+    public Backpropagation(double[] x, double[] yd) {
         this.x = x;
         this.yd = yd;
-        this.hsize = hsize;
+        this.hsize = 2 * yd.length;
         hidden = new Neuron[hsize];
         output = new Neuron[yd.length];
         initY();
