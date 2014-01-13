@@ -4,7 +4,7 @@ package backpropagation;
 
 class UpdateWTh {
     
-    private static final double alpha = 0.1;
+    private static final double alpha = 1.716;
     private static double sumEgDotW;
     static double outputTh;
     static double hiddenTh;
