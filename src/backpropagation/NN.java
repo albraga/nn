@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class NN implements Serializable {
 
-    private final Neuron[] hidden;
-    private final Neuron[] output;
+    Neuron[] hidden;
+    Neuron[] output;
 
     NN(Neuron[] hidden, Neuron[] output) {
         this.hidden = hidden;
@@ -34,5 +34,23 @@ public class NN implements Serializable {
         }
         return tmp;
     }
+
+    public Neuron[] getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(Neuron[] hidden) {
+        this.hidden = hidden;
+    }
+
+    public Neuron[] getOutput() {
+        return output;
+    }
+
+    public void setOutput(Neuron[] output) {
+        this.output = output;
+    }
+    
+    
 
 }

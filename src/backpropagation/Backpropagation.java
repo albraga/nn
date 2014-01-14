@@ -1,5 +1,4 @@
 //Artificial Intelligence A Guide to Intelligent Systems
-
 package backpropagation;
 
 import java.io.FileOutputStream;
@@ -8,23 +7,15 @@ import java.io.ObjectOutputStream;
 
 public class Backpropagation {
 
-    private final double[] x;
-    private final double[] yd;
-    private final int hsize;
-    private final Neuron[] hidden;
-    private final Neuron[] output;
     private NN nn;
     private static double sse;
     private static int ct = 0;
 
-    public Backpropagation(double[] x, double[] yd) {
-        this.x = x;
-        this.yd = yd;
-        this.hsize = 2 * yd.length;
-        hidden = new Neuron[hsize];
-        output = new Neuron[yd.length];
-        initY();
-        learn();
+    public Backpropagation(double[][] x, double[][] yd) {
+        initY(x[0], yd[0]);
+        for (int i = 0; i < x.length; i++) {
+            learn(x[i], yd[i]);
+        }
     }
 
     public NN getNN() {
@@ -42,50 +33,56 @@ public class Backpropagation {
         }
     }
 
-    private void initY() {
-        double[] hy = new double[hsize];
-        for (int i = 0; i < hsize; i++) {
-            hidden[i] = new Neuron(x, InitWTh.getW(x.length), InitWTh.getTh());
-            hy[i] = hidden[i].getY();
+    private void initY(double[] xI, double[] ydI) {
+        Neuron[] hiddenI = new Neuron[2 * ydI.length];
+        Neuron[] outputI = new Neuron[ydI.length];
+        double[] hy = new double[hiddenI.length];
+        for (int i = 0; i < hiddenI.length; i++) {
+            hiddenI[i] = new Neuron(xI, InitWTh.getW(xI.length), InitWTh.getTh());
+            hy[i] = hiddenI[i].getY();
         }
-        for (int i = 0; i < yd.length; i++) {
-            output[i] = new Neuron(hy, InitWTh.getW(hy.length), InitWTh.getTh());
+        for (int i = 0; i < outputI.length; i++) {
+            outputI[i] = new Neuron(hy, InitWTh.getW(hy.length), InitWTh.getTh());
+            outputI[i].setW(UpdateWTh.getOutputW(outputI[i], ydI[i]));
+            outputI[i].setTh(UpdateWTh.outputTh);
         }
-        for (int i = 0; i < yd.length; i++) {
-            output[i].setW(UpdateWTh.getOutputW(output[i], yd[i]));
-            output[i].setTh(UpdateWTh.outputTh);
-        }
+        nn = new NN(hiddenI, outputI);
     }
 
-    private void learn() {
-        
-        double[] hy = new double[hsize];
-        for (int i = 0; i < hidden.length; i++) {
-            hidden[i].setW(UpdateWTh.getHiddenW(hidden[i]));
-            hidden[i].setTh(UpdateWTh.hiddenTh);
-            hy[i] = hidden[i].getY();
+    private void learn(double[] xL, double[] ydL) {
+        Neuron[] hiddenL = nn.getHidden();
+        for (int i = 0; i <hiddenL.length; i++) {
+            hiddenL[i].setX(xL);
         }
-        double[] oy = new double[yd.length];
-        for (int i = 0; i < yd.length; i++) {
-            output[i] = new Neuron(hy, UpdateWTh.getOutputW(output[i], yd[i]), UpdateWTh.outputTh);
-            oy[i] = output[i].getY();
+        Neuron[] outputL = nn.getOutput();
+        double[] hy = new double[hiddenL.length];
+        for (int i = 0; i < hiddenL.length; i++) {
+            hiddenL[i].setW(UpdateWTh.getHiddenW(hiddenL[i]));
+            hiddenL[i].setTh(UpdateWTh.hiddenTh);
+            hy[i] = hiddenL[i].getY();
         }
-        nn = new NN(hidden, output);
-        sse = sumSquaredErrors(oy);
+        double[] oy = new double[ydL.length];
+        for (int i = 0; i < ydL.length; i++) {
+            outputL[i] = new Neuron(hy, UpdateWTh.getOutputW(outputL[i], ydL[i]), UpdateWTh.outputTh);
+            oy[i] = outputL[i].getY();
+        }
+        nn.setHidden(hiddenL);
+        nn.setOutput(outputL);
+        sse = sumSquaredErrors(ydL, oy);
         System.out.println(ct++);
         try {
             while (sse > 0.001) {
-                learn();
+                learn(xL, ydL);
             }
         } catch (StackOverflowError e) {
 
         }
     }
 
-    private double sumSquaredErrors(double[] yy) {
+    private double sumSquaredErrors(double[] ydL, double[] yy) {
         double s = 0;
         for (int i = 0; i < yy.length; i++) {
-            s += Math.pow((yd[i] - yy[i]), 2);
+            s += Math.pow((ydL[i] - yy[i]), 2);
         }
         return s;
     }
