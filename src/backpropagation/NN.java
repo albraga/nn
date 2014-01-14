@@ -30,7 +30,7 @@ public class NN implements Serializable {
 
     private double[] convert(double[] tmp) {
         for (int i = 0; i < tmp.length; i++) {
-            tmp[i] = (tmp[i] > 0.9) ? 1 : 0;
+            tmp[i] = (tmp[i] > 0.99) ? 1 : 0;
         }
         return tmp;
     }

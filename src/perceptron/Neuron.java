@@ -20,7 +20,7 @@ class Neuron implements Serializable {
     }
     
     private double activate(double net) {
-        return (1 / (1 + Math.exp(-net)));
+        return (1 / (1 + Math.exp(-net + th)));
     }
     
     double getNet() {
@@ -28,7 +28,7 @@ class Neuron implements Serializable {
         for (int i = 0; i < x.length; i++) {
             n += x[i] * w[i];
         }
-        return n - th;
+        return n;
     }
 
     double[] getX() {
