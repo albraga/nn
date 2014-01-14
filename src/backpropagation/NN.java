@@ -35,19 +35,19 @@ public class NN implements Serializable {
         return tmp;
     }
 
-    public Neuron[] getHidden() {
+    Neuron[] getHidden() {
         return hidden;
     }
 
-    public void setHidden(Neuron[] hidden) {
+    void setHidden(Neuron[] hidden) {
         this.hidden = hidden;
     }
 
-    public Neuron[] getOutput() {
+    Neuron[] getOutput() {
         return output;
     }
 
-    public void setOutput(Neuron[] output) {
+    void setOutput(Neuron[] output) {
         this.output = output;
     }
     
