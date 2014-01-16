@@ -5,22 +5,22 @@ import java.io.Serializable;
 
 class Neuron implements Serializable {
     
-    private double[] x;
+    private int[] x;
     private double[] w;
     private double th;
 
-    Neuron(double[] x, double[] w, double th) {
+    Neuron(int[] x, double[] w, double th) {
         this.x = x;
         this.w = w;
         this.th = th;
     }
     
-    double getY() {
+    public int getY() {
         return activate(getNet());
     }
     
-    private double activate(double net) {
-        return (1 / (1 + Math.exp(-net + th)));
+    private int activate(double net) {      
+        return net > th ? 1 : 0;
     }
     
     double getNet() {
@@ -31,11 +31,11 @@ class Neuron implements Serializable {
         return n;
     }
 
-    double[] getX() {
+    int[] getX() {
         return x;
     }
 
-    void setX(double[] x) {
+    public void setX(int[] x) {
         this.x = x;
     }
 

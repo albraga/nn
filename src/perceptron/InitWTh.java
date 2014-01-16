@@ -1,4 +1,4 @@
-package backpropagation;
+package perceptron;
 
 import java.util.Random;
 
@@ -9,12 +9,12 @@ class InitWTh {
     static double[] getW(int size) {
         double[] wt = new double[size];
         for (int i = 0; i < size; i++) {
-            wt[i] = i % 2 == 0 ? -r.nextDouble()/2: r.nextDouble()/2;
+            wt[i] = i % 2 == 0 ? -r.nextDouble()/2: r.nextDouble();
         }
         return wt;
     }
 
     static double getTh() {
-        return r.nextDouble() * 3;
+        return r.nextDouble();
     }
 }
