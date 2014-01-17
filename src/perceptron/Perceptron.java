@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Perceptron {
 
     private Neuron nP;
+    private static int e;
 
     public Perceptron(int[][] xx, int[] yyd) {
         int[][] xxn = updateXX(xx);
@@ -15,34 +16,32 @@ public class Perceptron {
     }
 
     private void train(int[][] xxn, int[] yyd) {
-        Neuron nT = null;
-        Neuron nL = null;
-        for (int i = 0; i < xxn.length; i++) {
-            if (i == 0) {
-                nT = learn(initN(xxn[i]), xxn[i], yyd[i]);
-            }
-            nL = learn(nT, xxn[i], yyd[i]);
+        Neuron nT = learn(initN(xxn[0]), xxn[0], yyd[0]);
+        Neuron nF = null;
+        for (int i = 1; i < xxn.length; i++) {
+            nF = learn(nT, xxn[i], yyd[i]);
         }
-        test(nL, xxn, yyd);
+        test(nF, xxn, yyd);
     }
 
     private void test(Neuron nTest, int[][] xxn, int[] yyd) {
         for (int i = 0; i < xxn.length; i++) {
-            nTest.setX(xxn[i]);
-            if (yyd[i] != nTest.getY()) {
-                train(xxn, yyd);
-            }
+            nTest.setXU(xxn[i]);
+            e += Math.pow((yyd[i] - nTest.getY()), 2);
+        }
+        if (e > 0) {
+            train(xxn, yyd);
         }
         nP = nTest;
     }
 
     private int[][] updateXX(int[][] xx) {
-        int[][] xxn = new int[xx.length][xx[0].length + 1];
+        int[][] xxU = new int[xx.length][xx[0].length + 1];
         for (int i = 0; i < xx.length; i++) {
-            xxn[i] = Arrays.copyOf(xx[i], xx[i].length + 1);
-            xxn[i][xx[i].length] = 1;
+            xxU[i] = Arrays.copyOf(xx[i], xx[i].length + 1);
+            xxU[i][xx[i].length] = 1;
         }
-        return xxn;
+        return xxU;
     }
 
     private Neuron learn(Neuron nL, int[] xL, int ydL) {
