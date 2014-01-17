@@ -56,8 +56,12 @@ public class Perceptron {
     private int getE(int ydd, int yy) {
         return (ydd - yy);
     }
+    
+    public Neuron getN() {
+        return nP;
+    }
 
-    public void saveNN(String name) {
+    public void saveN(String name) {
         try {
             FileOutputStream fos = new FileOutputStream(name);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
