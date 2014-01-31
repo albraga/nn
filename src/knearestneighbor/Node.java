@@ -2,7 +2,6 @@ package knearestneighbor;
 
 public class Node {
     
-    public enum Type {APARTMENT, HOUSE, FLAT};
     private Type type;
     private double area;
     private int rooms;
@@ -17,6 +16,7 @@ public class Node {
         this.area = area;
         this.rooms = rooms;
     }
+    
 
     public Type getType() {
         return type;
