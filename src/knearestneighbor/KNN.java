@@ -4,13 +4,11 @@ public class KNN {
 
     public KNN() {
         Node[] eNodes = createENodes(EDATA);
-        for (Node n : eNodes) {
-            System.out.println(n.getType() + " Area: " + n.getArea() + " Rooms: " + n.getRooms());
-        }
+
     }
 
     private Node[] createENodes(String edata) {
-        String[] ed = edata.split(" ");
+        String[] ed = normalize(edata.split(" "));
         Node[] nodes = new Node[(ed.length / 3)];
         int t = 2, a = 1, r = 0;
         for (int i = 0; i < nodes.length; i++) {
@@ -20,6 +18,17 @@ public class KNN {
         r += 3;
         }
         return nodes;
+    }
+    
+    private String[] normalize(String[] ed) {
+        int a = 1, r = 0;
+        for (int i = 0; i < ed.length; i++) {
+            ed[a] = "";
+            ed[r] = "";
+            a += 3;
+            r += 3;
+        }
+        return ed;
     }
 
     private final String EDATA = "1 350 apartment "
