@@ -8,26 +8,46 @@ public class KNN {
     }
 
     private Node[] createENodes(String edata) {
-        String[] ed = normalize(edata.split(" "));
+        String[] ed = getMinAndMax(edata.split(" "));
         Node[] nodes = new Node[(ed.length / 3)];
         int t = 2, a = 1, r = 0;
         for (int i = 0; i < nodes.length; i++) {
             nodes[i] = new Node(Type.get(ed[t]), Integer.parseInt(ed[a]), Integer.parseInt(ed[r]));
-        t += 3;
-        a += 3;
-        r += 3;
-        }
-        return nodes;
-    }
-    
-    private String[] normalize(String[] ed) {
-        int a = 1, r = 0;
-        for (int i = 0; i < ed.length; i++) {
-            ed[a] = "";
-            ed[r] = "";
+            t += 3;
             a += 3;
             r += 3;
         }
+        return nodes;
+    }
+
+    private String[] getMinAndMax(String[] ed) {
+        int roomsMin = 1000000;
+        int roomsMax = 0;
+        int areaMin = 1000000;
+        int areaMax = 0;
+        int a = 1, r = 0;
+        for (int i = 0; i < ed.length; i++) {
+            if (Integer.parseInt(ed[a]) < areaMin) {
+                areaMin = Integer.parseInt(ed[a]);
+            }
+            if (Integer.parseInt(ed[a]) > areaMax) {
+                areaMax = Integer.parseInt(ed[a]);
+            }
+
+            if (Integer.parseInt(ed[r]) < roomsMin) {
+                roomsMin = Integer.parseInt(ed[r]);
+            }
+            if (Integer.parseInt(ed[r]) > roomsMax) {
+                roomsMax = Integer.parseInt(ed[r]);
+            }
+            if (r <= ed.length - 6) {
+                r += 3;
+            }
+            if (a <= ed.length - 5) {
+                a += 3;
+            }
+        }
+        System.out.println(" a " + areaMin + " " + areaMax + " r " + roomsMin + " " + roomsMax);
         return ed;
     }
 
