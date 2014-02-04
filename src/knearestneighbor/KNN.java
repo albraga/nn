@@ -3,12 +3,42 @@ package knearestneighbor;
 public class KNN {
 
     public KNN() {
-        Node[] eNodes = createENodes(EDATA);
+        Node[] eNodes = createTrainingNodes(trainingData);
+        measureDistances(getMinAndMax(trainingData.split(" ")), eNodes);
 
     }
+    
+    private void determineUnknown(Node[] uNodes, Node[] nodes) {
+        for (Node uNode : uNodes) {
+            uNode.setNeighbors(nodes);
+            //double distance = measureDistances
+            //uNode.setDistance();
+        }
+    }
 
-    private Node[] createENodes(String edata) {
-        String[] ed = getMinAndMax(edata.split(" "));
+    private void measureDistances(int[][] minMax, Node[] nodes) {
+        int areaMin = minMax[0][0];
+        int areaMax = minMax[0][1];
+        int roomsMin = minMax[1][0];
+        int roomsMax = minMax[1][1];
+        int roomsRange = roomsMax - roomsMin;
+        int areaRange = areaMax - areaMin;
+        for (Node node : nodes) {
+            if (node.getNeighbors() != null) {
+                for (Node neighbor : node.getNeighbors()) {
+                    double deltaRooms = neighbor.getRooms() - node.getRooms();
+                    deltaRooms = (deltaRooms / roomsRange);
+                    double deltaArea = neighbor.getArea() - node.getArea();
+                    deltaArea = (deltaArea/areaRange);
+                    double distance = Math.sqrt((Math.pow(deltaRooms,2) + Math.pow(deltaArea,2)));
+                    neighbor.setDistance(distance);
+                }
+            }
+        }
+    }
+
+    private Node[] createTrainingNodes(String trainingData) {
+        String[] ed = trainingData.split(" ");
         Node[] nodes = new Node[(ed.length / 3)];
         int t = 2, a = 1, r = 0;
         for (int i = 0; i < nodes.length; i++) {
@@ -20,38 +50,37 @@ public class KNN {
         return nodes;
     }
 
-    private String[] getMinAndMax(String[] ed) {
+    private int[][] getMinAndMax(String[] trainingDataArray) {
         int roomsMin = 1000000;
         int roomsMax = 0;
         int areaMin = 1000000;
         int areaMax = 0;
         int a = 1, r = 0;
-        for (int i = 0; i < ed.length; i++) {
-            if (Integer.parseInt(ed[a]) < areaMin) {
-                areaMin = Integer.parseInt(ed[a]);
+        for (int i = 0; i < trainingDataArray.length; i++) {
+            if (Integer.parseInt(trainingDataArray[a]) < areaMin) {
+                areaMin = Integer.parseInt(trainingDataArray[a]);
             }
-            if (Integer.parseInt(ed[a]) > areaMax) {
-                areaMax = Integer.parseInt(ed[a]);
+            if (Integer.parseInt(trainingDataArray[a]) > areaMax) {
+                areaMax = Integer.parseInt(trainingDataArray[a]);
             }
 
-            if (Integer.parseInt(ed[r]) < roomsMin) {
-                roomsMin = Integer.parseInt(ed[r]);
+            if (Integer.parseInt(trainingDataArray[r]) < roomsMin) {
+                roomsMin = Integer.parseInt(trainingDataArray[r]);
             }
-            if (Integer.parseInt(ed[r]) > roomsMax) {
-                roomsMax = Integer.parseInt(ed[r]);
+            if (Integer.parseInt(trainingDataArray[r]) > roomsMax) {
+                roomsMax = Integer.parseInt(trainingDataArray[r]);
             }
-            if (r <= ed.length - 6) {
+            if (r <= trainingDataArray.length - 6) {
                 r += 3;
             }
-            if (a <= ed.length - 5) {
+            if (a <= trainingDataArray.length - 5) {
                 a += 3;
             }
         }
-        System.out.println(" a " + areaMin + " " + areaMax + " r " + roomsMin + " " + roomsMax);
-        return ed;
+        return new int[][]{{areaMin, areaMax}, {roomsMin, roomsMax}};
     }
 
-    private final String EDATA = "1 350 apartment "
+    private final String trainingData = "1 350 apartment "
             + "2 300 apartment "
             + "3 300 apartment "
             + "4 250 apartment "

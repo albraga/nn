@@ -5,6 +5,8 @@ public class Node {
     private Type type;
     private int area;
     private int rooms;
+    private Node[] neighbors;
+    private double distance;
     
     public Node(Type type, int area, int rooms) {
         this.type = type;
@@ -42,5 +44,20 @@ public class Node {
         this.rooms = rooms;
     }
     
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public Node[] getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(Node[] neighbors) {
+        this.neighbors = neighbors;
+    }
     
 }
