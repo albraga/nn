@@ -3,46 +3,43 @@ package knearestneighbor;
 public class KNN {
 
     public KNN() {
-        Node[] eNodes = createTrainingNodes(trainingData);
-        measureDistances(getMinAndMax(trainingData.split(" ")), eNodes);
+        Dwelling[] eNodes = createTrainingNodes(trainingData);
+        //measureDistances(getMinAndMax(trainingData.split(" ")), eNodes);
 
     }
-    
-    private void determineUnknown(Node[] uNodes, Node[] nodes) {
-        for (Node uNode : uNodes) {
-            uNode.setNeighbors(nodes);
+
+    private void determineUnknown(Dwelling[] uNodes, Dwelling[] nodes) {
+        for (Dwelling uNode : uNodes) {
+            //uNode.setNeighbors(nodes);
             //double distance = measureDistances
             //uNode.setDistance();
         }
     }
 
-    private void measureDistances(int[][] minMax, Node[] nodes) {
+    private Dwelling[] setDistances(int[][] minMax, Dwelling[] uNodes, Dwelling[] trainingNodes) {
         int areaMin = minMax[0][0];
         int areaMax = minMax[0][1];
         int roomsMin = minMax[1][0];
         int roomsMax = minMax[1][1];
         int roomsRange = roomsMax - roomsMin;
         int areaRange = areaMax - areaMin;
-        for (Node node : nodes) {
-            if (node.getNeighbors() != null) {
-                for (Node neighbor : node.getNeighbors()) {
-                    double deltaRooms = neighbor.getRooms() - node.getRooms();
-                    deltaRooms = (deltaRooms / roomsRange);
-                    double deltaArea = neighbor.getArea() - node.getArea();
-                    deltaArea = (deltaArea/areaRange);
-                    double distance = Math.sqrt((Math.pow(deltaRooms,2) + Math.pow(deltaArea,2)));
-                    neighbor.setDistance(distance);
-                }
-            }
+        for (Dwelling uNode : uNodes) {
+            double deltaRooms = uNode.getRooms() - node.getRooms();
+            deltaRooms = (deltaRooms / roomsRange);
+            double deltaArea = uNode.getArea() - node.getArea();
+            deltaArea = (deltaArea / areaRange);
+            double distance = Math.sqrt((Math.pow(deltaRooms, 2) + Math.pow(deltaArea, 2)));
+            uNode.setDistance(distance);
         }
+        return uNodes;
     }
 
-    private Node[] createTrainingNodes(String trainingData) {
+    private Dwelling[] createTrainingNodes(String trainingData) {
         String[] ed = trainingData.split(" ");
-        Node[] nodes = new Node[(ed.length / 3)];
+        Dwelling[] nodes = new Dwelling[(ed.length / 3)];
         int t = 2, a = 1, r = 0;
         for (int i = 0; i < nodes.length; i++) {
-            nodes[i] = new Node(Type.get(ed[t]), Integer.parseInt(ed[a]), Integer.parseInt(ed[r]));
+            nodes[i] = new Dwelling(Type.get(ed[t]), Integer.parseInt(ed[a]), Integer.parseInt(ed[r]));
             t += 3;
             a += 3;
             r += 3;

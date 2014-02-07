@@ -1,20 +1,19 @@
 package knearestneighbor;
 
-public class Node {
+public class Dwelling {
     
     private Type type;
     private int area;
     private int rooms;
-    private Node[] neighbors;
     private double distance;
     
-    public Node(Type type, int area, int rooms) {
+    public Dwelling(Type type, int area, int rooms) {
         this.type = type;
         this.area = area;
         this.rooms = rooms;
     }
     
-    public Node(int area, int rooms) {
+    public Dwelling(int area, int rooms) {
         this.area = area;
         this.rooms = rooms;
     }
@@ -50,14 +49,6 @@ public class Node {
 
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public Node[] getNeighbors() {
-        return neighbors;
-    }
-
-    public void setNeighbors(Node[] neighbors) {
-        this.neighbors = neighbors;
     }
     
 }
