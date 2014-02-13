@@ -15,11 +15,11 @@ public class DwellingList {
         //measureDistances(getMinAndMax(trainingData.split(" ")), eNodes);
     }
 
-    private void determineUnknown(Dwelling[] uNodes, Dwelling[] nodes) {
-        for (Dwelling uNode : uNodes) {
-            //uNode.setNeighbors(nodes);
-            //double distance = measureDistances
-            //uNode.setDistance();
+    private void determineUnknown() {
+        for (Dwelling uNode : dwellings) {
+            if(uNode.getType() == null) {
+                uNode.setNeighbors(dwellings);
+            }
         }
     }
 

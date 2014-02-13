@@ -1,9 +1,10 @@
 package knearestneighbor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Dwelling {
+public class Dwelling implements Comparable<Dwelling> {
     
     private Type type;
     private int area;
@@ -20,6 +21,10 @@ public class Dwelling {
     public Dwelling(int area, int rooms) {
         this.area = area;
         this.rooms = rooms;
+    }
+    
+    void sortByDistance() {
+        Collections.sort(neighbors);
     }
     
     void measureDistances(int[][] minMax) {
@@ -71,5 +76,23 @@ public class Dwelling {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    public List<Dwelling> getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(List<Dwelling> neighbors) {
+        this.neighbors = neighbors;
+    }
+
+    @Override
+    public int compareTo(Dwelling compareDwelling) {
+        double compareDistance = ((Dwelling) compareDwelling).getDistance();
+        if (this.distance > compareDistance) return 1;
+        if (this.distance < compareDistance) return -1;
+        return 0;
+    }
+
+    
     
 }
