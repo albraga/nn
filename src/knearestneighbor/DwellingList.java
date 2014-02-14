@@ -16,9 +16,15 @@ public class DwellingList {
     }
 
     private void determineUnknown() {
+        calculateRanges();
         for (Dwelling uNode : dwellings) {
             if(uNode.getType() == null) {
-                uNode.setNeighbors(dwellings);
+                for (Dwelling jNode : dwellings) {
+                    if(jNode.getType() != null) {
+                        uNode.getNeighbors().add(jNode);
+                    }
+                }
+                uNode.measureDistances(areaMin, areaMax, roomsMin, roomsMax);
             }
         }
     }

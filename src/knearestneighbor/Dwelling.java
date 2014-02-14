@@ -27,11 +27,7 @@ public class Dwelling implements Comparable<Dwelling> {
         Collections.sort(neighbors);
     }
     
-    void measureDistances(int[][] minMax) {
-        int areaMin = minMax[0][0];
-        int areaMax = minMax[0][1];
-        int roomsMin = minMax[1][0];
-        int roomsMax = minMax[1][1];
+    void measureDistances(int areaMin, int areaMax, int roomsMin, int roomsMax) {
         int roomsRange = roomsMax - roomsMin;
         int areaRange = areaMax - areaMin;
         for (Dwelling neighbor : neighbors) {
